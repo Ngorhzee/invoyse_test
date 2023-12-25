@@ -108,12 +108,15 @@ class AppButton extends StatelessWidget {
                   icon!,
                   SizedBox(width: 10.w),
                 ],
-              AppText.buttonText(text)
+                AppText.buttonText(text)
               ],
             ))
         : ElevatedButton(
             style: ButtonStyle(
-              side: border == null ? MaterialStateProperty.all(BorderSide(color: AppColors.primary,width: 1.h)) : MaterialStateProperty.all(border),
+              side: border == null
+                  ? MaterialStateProperty.all(BorderSide(
+                      color: AppColors.primary.withOpacity(.1), width: 1.h))
+                  : MaterialStateProperty.all(border),
               minimumSize: size != null
                   ? MaterialStateProperty.all(size)
                   : MaterialStateProperty.all(Size(0, 44.h)),
@@ -141,12 +144,11 @@ class AppButton extends StatelessWidget {
                   if (!enabled) {
                     return backgroundColor != null
                         ? backgroundColor?.withOpacity(.5)
-                        : AppColors.primary.withOpacity(.5);
+                        : AppColors.primary.withOpacity(.1);
                   }
                   return backgroundColor ?? AppColors.primary;
                 },
               ),
-              
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(radius ?? 20.0),
@@ -168,8 +170,7 @@ class AppButton extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 AppText.buttonText(
-                   text,
-                
+                  text,
                 ),
                 if (icon != null) ...[
                   SizedBox(width: 10.w),

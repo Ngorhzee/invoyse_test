@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       designSize: Size(375, 667),
       builder:(context, widget)=> MaterialApp(
         debugShowCheckedModeBanner: false,
-        key: PageRouter.instance.navigatorKey,
+        navigatorKey: PageRouter.instance.navigatorKey,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,

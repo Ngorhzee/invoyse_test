@@ -37,12 +37,12 @@ TextStyle body2 = TextStyle(
     fontFamily: "Figtree",
     fontSize: 16.sp,
     fontWeight: FontWeight.w700,
-    color: AppColors.grey);
+    color: AppColors.grey.shade600);
 TextStyle body3 = TextStyle(
     fontFamily: "Figtree",
     fontSize: 12.sp,
     fontWeight: FontWeight.w400,
-    color: AppColors.grey);
+    color: AppColors.grey.shade600);
 TextStyle body4 = TextStyle(
     fontFamily: "Figtree",
     decorationColor: AppColors.white,

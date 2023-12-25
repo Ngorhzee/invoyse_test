@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:invoyse_test/constants/asset.dart';
+import 'package:invoyse_test/services/page_router.dart';
 import 'package:invoyse_test/utils/app_text.dart';
 import 'package:invoyse_test/utils/colors.dart';
+import 'package:invoyse_test/views/business/business_view.dart';
 import 'package:invoyse_test/views/menu/components/menu_cards.dart';
 import 'package:invoyse_test/widgets/bottom_sheet.dart';
 
@@ -12,6 +14,7 @@ class MenuView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    PageRouter pageRouter = PageRouter.instance;
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -25,7 +28,7 @@ class MenuView extends StatelessWidget {
                   children: [
                     SvgPicture.asset(AppAssets.arrowBackIos),
                     AppText.heading1("Menu"),
-                    SizedBox()
+                    const SizedBox()
                   ],
                 ),
               ),
@@ -63,7 +66,34 @@ class MenuView extends StatelessWidget {
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        ProfileRow(
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 10.w),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              const SizedBox(),
+                                              AppText.heading2(
+                                                "Switch business",
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                              GestureDetector(
+                                                onTap: () =>
+                                                    pageRouter.goBack(),
+                                                child: SizedBox(
+                                                    height: 24.h,
+                                                    width: 24.w,
+                                                    child: SvgPicture.asset(
+                                                        AppAssets.close)),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 20.h,
+                                        ),
+                                        const ProfileRow(
                                           title: "JS",
                                         ),
                                         SizedBox(
@@ -76,7 +106,7 @@ class MenuView extends StatelessWidget {
                                         SizedBox(
                                           height: 15.h,
                                         ),
-                                        ProfileRow(
+                                        const ProfileRow(
                                           color: AppColors.white,
                                           image: DecorationImage(
                                               fit: BoxFit.cover,
@@ -94,17 +124,25 @@ class MenuView extends StatelessWidget {
                                         SizedBox(
                                           height: 15.h,
                                         ),
-                                        Row(
-                                          children: [
-                                            SvgPicture.asset(AppAssets.add),
-                                            SizedBox(
-                                              width: 27.w,
-                                            ),
-                                            AppText.heading4(
-                                              "Add Account",
-                                              color: AppColors.primary.shade500,
-                                            )
-                                          ],
+                                        GestureDetector(
+                                          onTap: () {
+                                            pageRouter.goBack();
+                                            pageRouter
+                                                .gotoWidget(AddBusinessView());
+                                          },
+                                          child: Row(
+                                            children: [
+                                              SvgPicture.asset(AppAssets.add),
+                                              SizedBox(
+                                                width: 27.w,
+                                              ),
+                                              AppText.heading4(
+                                                "Add Account",
+                                                color:
+                                                    AppColors.primary.shade500,
+                                              )
+                                            ],
+                                          ),
                                         )
                                       ],
                                     ),
@@ -126,45 +164,45 @@ class MenuView extends StatelessWidget {
               Expanded(
                   child: ListView(
                 children: [
-                  MenuCards(
+                  const MenuCards(
                       title: "Business details",
                       subtitle: "Logo, Name, Contact information..."),
-                  MenuCards(
+                  const MenuCards(
                       title: "Quotations",
                       subtitle: "Quotation list, create quotations..."),
-                  MenuCards(
+                  const MenuCards(
                       title: "Manage staff", subtitle: "Invoice templates"),
-                  MenuCards(
+                  const MenuCards(
                       title: "Invoice templates",
                       subtitle: "Select templates, change colors..."),
-                  MenuCards(
+                  const MenuCards(
                       title: "Payment information",
                       subtitle: "Payment options, instructions..."),
-                  MenuCards(title: "Tax", subtitle: "Tax options"),
-                  MenuCards(
+                  const MenuCards(title: "Tax", subtitle: "Tax options"),
+                  const MenuCards(
                       title: "Default notes",
                       subtitle: "Invoice notes, Estimate notes"),
-                  MenuCards(
+                  const MenuCards(
                       title: "Customization options",
                       subtitle:
                           "Invoice no., Quantity label, Invoice title..."),
-                  MenuCards(title: "Export "),
+                  const MenuCards(title: "Export "),
                   Container(
                     padding:
                         EdgeInsets.symmetric(horizontal: 19.w, vertical: 20.h),
                     color: AppColors.grey.shade100.withOpacity(.19),
                     child: AppText.heading3("Account settings"),
                   ),
-                  MenuCards(
+                  const MenuCards(
                     title: "Upgrade  your plan",
                     showArrow: false,
                   ),
-                  MenuCards(
+                  const MenuCards(
                     title: "Country/region settings",
                     subtitle: "Currency, country, language...",
                   ),
                   Container(
-                    padding: EdgeInsets.fromLTRB(16.w, 14.h, 20.w, 16.h),
+                    padding: EdgeInsets.fromLTRB(16.w, 22.h, 20.w, 22.h),
                     decoration: BoxDecoration(
                       border: Border(
                         bottom: BorderSide(
@@ -176,6 +214,9 @@ class MenuView extends StatelessWidget {
                       children: [
                         SvgPicture.asset(
                           AppAssets.logout,
+                        ),
+                        SizedBox(
+                          width: 10.w,
                         ),
                         AppText.body2("Logout")
                       ],
@@ -232,7 +273,7 @@ class ProfileRow extends StatelessWidget {
               )
             ],
           ),
-          Spacer(),
+          const Spacer(),
           Container(
             height: 25.h,
             width: 25.w,
@@ -276,7 +317,7 @@ class ProfileLogo extends StatelessWidget {
                   title!,
                   color: textColor ?? AppColors.white,
                 )
-              : SizedBox()),
+              : const SizedBox()),
     );
   }
 }
