@@ -5,6 +5,7 @@ import 'package:invoyse_test/constants/asset.dart';
 import 'package:invoyse_test/utils/app_text.dart';
 import 'package:invoyse_test/utils/colors.dart';
 import 'package:invoyse_test/views/menu/components/menu_cards.dart';
+import 'package:invoyse_test/widgets/bottom_sheet.dart';
 
 class MenuView extends StatelessWidget {
   const MenuView({super.key});
@@ -39,19 +40,10 @@ class MenuView extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Container(
-                          height: 53.h,
-                          width: 53.w,
-                          decoration: BoxDecoration(
-                            color: AppColors.white,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Center(
-                            child: AppText.heading4(
-                              "JS",
-                              color: AppColors.primary.shade500,
-                            ),
-                          ),
+                        ProfileLogo(
+                          title: "JS",
+                          color: AppColors.white,
+                          textColor: AppColors.primary.shade500,
                         ),
                         SizedBox(
                           width: 28.w,
@@ -64,6 +56,59 @@ class MenuView extends StatelessWidget {
                               height: 2.h,
                             ),
                             GestureDetector(
+                              onTap: () => BottomSheets.showSheet(context,
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 10.w, vertical: 20.h),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        ProfileRow(
+                                          title: "JS",
+                                        ),
+                                        SizedBox(
+                                          height: 10.h,
+                                        ),
+                                        Divider(
+                                          color: AppColors.grey.shade600
+                                              .withOpacity(.3),
+                                        ),
+                                        SizedBox(
+                                          height: 15.h,
+                                        ),
+                                        ProfileRow(
+                                          color: AppColors.white,
+                                          image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: AssetImage(
+                                                AppAssets.dp,
+                                              )),
+                                        ),
+                                        SizedBox(
+                                          height: 10.h,
+                                        ),
+                                        Divider(
+                                          color: AppColors.grey.shade600
+                                              .withOpacity(.3),
+                                        ),
+                                        SizedBox(
+                                          height: 15.h,
+                                        ),
+                                        Row(
+                                          children: [
+                                            SvgPicture.asset(AppAssets.add),
+                                            SizedBox(
+                                              width: 27.w,
+                                            ),
+                                            AppText.heading4(
+                                              "Add Account",
+                                              color: AppColors.primary.shade500,
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  )),
                               child: AppText.body4(
                                 "Switch business",
                                 textDecoration: TextDecoration.underline,
@@ -142,6 +187,96 @@ class MenuView extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class ProfileRow extends StatelessWidget {
+  const ProfileRow({
+    super.key,
+    this.image,
+    this.title,
+    this.color,
+  });
+  final DecorationImage? image;
+  final String? title;
+  final Color? color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 10.w),
+      child: Row(
+        children: [
+          ProfileLogo(
+            title: title,
+            image: image,
+            color: color,
+          ),
+          SizedBox(
+            width: 28.w,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AppText.heading4(
+                "James & Sons",
+                color: AppColors.primary.shade500,
+              ),
+              SizedBox(
+                height: 6.h,
+              ),
+              AppText.body4(
+                "No. 2 Ikeja Street, off Allen Avenue....",
+                color: AppColors.primary.shade500,
+              )
+            ],
+          ),
+          Spacer(),
+          Container(
+            height: 25.h,
+            width: 25.w,
+            decoration: BoxDecoration(
+                color: AppColors.primary.shade300, shape: BoxShape.circle),
+            child: Center(
+              child: SvgPicture.asset(AppAssets.check),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class ProfileLogo extends StatelessWidget {
+  const ProfileLogo({
+    super.key,
+    this.image,
+    this.color,
+    this.title,
+    this.textColor,
+  });
+  final DecorationImage? image;
+  final Color? color;
+  final Color? textColor;
+  final String? title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 53.h,
+      width: 53.w,
+      decoration: BoxDecoration(
+          color: color ?? AppColors.primary.shade500,
+          shape: BoxShape.circle,
+          image: image),
+      child: Center(
+          child: title != null
+              ? AppText.heading4(
+                  title!,
+                  color: textColor ?? AppColors.white,
+                )
+              : SizedBox()),
     );
   }
 }

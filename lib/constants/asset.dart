@@ -12,6 +12,8 @@ class AppAssets {
   static const arrowDown = "$svgPath/arrow_down.svg";
   static const arrowForward = "$svgPath/arrow_forward.svg";
   static const logout = "$svgPath/log_out.svg";
+  static const add = "$svgPath/add.svg";
   static const upload = "$svgPath/upload.svg";
-  static const edit = "$imagePath/edit_circle.svg";
+  static const edit = "$imagePath/edit_circle.png";
+  static const dp = "$imagePath/dp.png";
 }

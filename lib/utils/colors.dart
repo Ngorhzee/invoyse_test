@@ -17,4 +17,5 @@ const Map<int, Color> _greyColor = {
   300: Color(0xFFA5A5A5),
   400: Color(0xFF5F5F5F),
   500: Color(0xFFE6E6E6),
+  600: Color(0xff606060)
 };
