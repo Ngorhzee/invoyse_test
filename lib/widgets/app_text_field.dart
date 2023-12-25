@@ -76,7 +76,7 @@ class _AppTextFieldState extends State<AppTextField> {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20),
-              borderSide: BorderSide.none,
+              borderSide: BorderSide(color: AppColors.primary),
             ),
             errorBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.red.shade500),

@@ -12,8 +12,9 @@ const Map<int, Color> _primaryColor = {
   500: Color(0xff000000)
 };
 const Map<int, Color> _greyColor = {
+  100: Color(0xffD9D9D930),
   200: Color(0xFF9B9B9B),
   300: Color(0xFFA5A5A5),
   400: Color(0xFF5F5F5F),
-  500: Colors.black
+  500: Color(0xFFE6E6E6),
 };
