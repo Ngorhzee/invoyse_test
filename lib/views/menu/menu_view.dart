@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -7,7 +9,12 @@ import 'package:invoyse_test/utils/app_text.dart';
 import 'package:invoyse_test/utils/colors.dart';
 import 'package:invoyse_test/views/business/business_view.dart';
 import 'package:invoyse_test/views/menu/components/menu_cards.dart';
+import 'package:invoyse_test/views/menu/components/profile_card.dart';
 import 'package:invoyse_test/widgets/bottom_sheet.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/business_profile_providers.dart';
+import 'components/profile_logo.dart';
 
 class MenuView extends StatelessWidget {
   const MenuView({super.key});
@@ -15,6 +22,8 @@ class MenuView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     PageRouter pageRouter = PageRouter.instance;
+    BusinessProfileProvider provider =
+        Provider.of<BusinessProfileProvider>(context);
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -44,7 +53,26 @@ class MenuView extends StatelessWidget {
                     Row(
                       children: [
                         ProfileLogo(
-                          title: "JS",
+                          title: provider.activeProfile.image == null
+                              ? provider.getshortForm(
+                                  provider.activeProfile.businessName)
+                              : null,
+                          image: provider.activeProfile.image != null &&
+                                  !provider.activeProfile.image!
+                                      .contains("assets")
+                              ? DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: FileImage(
+                                    File(provider.activeProfile.image!),
+                                  ),
+                                )
+                              : provider.activeProfile.image != null &&
+                                      provider.activeProfile.image!
+                                          .contains("assets")
+                                  ? DecorationImage(
+                                      image: AssetImage(
+                                          provider.activeProfile.image!))
+                                  : null,
                           color: AppColors.white,
                           textColor: AppColors.primary.shade500,
                         ),
@@ -54,12 +82,14 @@ class MenuView extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            AppText.heading4("James & Sons"),
+                            AppText.heading4(
+                                provider.activeProfile.businessName),
                             SizedBox(
                               height: 2.h,
                             ),
                             GestureDetector(
                               onTap: () => BottomSheets.showSheet(context,
+                              
                                   child: Padding(
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 10.w, vertical: 20.h),
@@ -93,36 +123,47 @@ class MenuView extends StatelessWidget {
                                         SizedBox(
                                           height: 20.h,
                                         ),
-                                        const ProfileRow(
-                                          title: "JS",
-                                        ),
-                                        SizedBox(
-                                          height: 10.h,
-                                        ),
-                                        Divider(
-                                          color: AppColors.grey.shade600
-                                              .withOpacity(.3),
-                                        ),
-                                        SizedBox(
-                                          height: 15.h,
-                                        ),
-                                        const ProfileRow(
-                                          color: AppColors.white,
-                                          image: DecorationImage(
-                                              fit: BoxFit.cover,
-                                              image: AssetImage(
-                                                AppAssets.dp,
-                                              )),
-                                        ),
-                                        SizedBox(
-                                          height: 10.h,
-                                        ),
-                                        Divider(
-                                          color: AppColors.grey.shade600
-                                              .withOpacity(.3),
-                                        ),
-                                        SizedBox(
-                                          height: 15.h,
+                                        Flexible(
+                                          //height: 1.sh / 2,
+                                          child: SingleChildScrollView(
+                                            child: Column(children: [
+                                              ...List.generate(
+                                                  provider.businessProfileList
+                                                      .length,
+                                                  (index) => Column(
+                                                        children: [
+                                                          GestureDetector(
+                                                              onTap: () {
+                                                                provider.setActiveProfile(
+                                                                    provider.businessProfileList[
+                                                                        index]);
+                                                                pageRouter
+                                                                    .goBack();
+                                                              },
+                                                              child: ProfileCard(
+                                                                  isActive: provider
+                                                                          .activeProfile ==
+                                                                      provider.businessProfileList[
+                                                                          index],
+                                                                  businessModel:
+                                                                      provider.businessProfileList[
+                                                                          index])),
+                                                          SizedBox(
+                                                            height: 10.h,
+                                                          ),
+                                                          Divider(
+                                                            color: AppColors
+                                                                .grey.shade600
+                                                                .withOpacity(
+                                                                    .3),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 15.h,
+                                                          ),
+                                                        ],
+                                                      )),
+                                            ]),
+                                          ),
                                         ),
                                         GestureDetector(
                                           onTap: () {
@@ -130,18 +171,22 @@ class MenuView extends StatelessWidget {
                                             pageRouter
                                                 .gotoWidget(AddBusinessView());
                                           },
-                                          child: Row(
-                                            children: [
-                                              SvgPicture.asset(AppAssets.add),
-                                              SizedBox(
-                                                width: 27.w,
-                                              ),
-                                              AppText.heading4(
-                                                "Add Account",
-                                                color:
-                                                    AppColors.primary.shade500,
-                                              )
-                                            ],
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 10.w),
+                                            child: Row(
+                                              children: [
+                                                SvgPicture.asset(AppAssets.add),
+                                                SizedBox(
+                                                  width: 27.w,
+                                                ),
+                                                AppText.heading4(
+                                                  "Add Account",
+                                                  color: AppColors
+                                                      .primary.shade500,
+                                                )
+                                              ],
+                                            ),
                                           ),
                                         )
                                       ],
@@ -228,96 +273,6 @@ class MenuView extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class ProfileRow extends StatelessWidget {
-  const ProfileRow({
-    super.key,
-    this.image,
-    this.title,
-    this.color,
-  });
-  final DecorationImage? image;
-  final String? title;
-  final Color? color;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10.w),
-      child: Row(
-        children: [
-          ProfileLogo(
-            title: title,
-            image: image,
-            color: color,
-          ),
-          SizedBox(
-            width: 28.w,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              AppText.heading4(
-                "James & Sons",
-                color: AppColors.primary.shade500,
-              ),
-              SizedBox(
-                height: 6.h,
-              ),
-              AppText.body4(
-                "No. 2 Ikeja Street, off Allen Avenue....",
-                color: AppColors.primary.shade500,
-              )
-            ],
-          ),
-          const Spacer(),
-          Container(
-            height: 25.h,
-            width: 25.w,
-            decoration: BoxDecoration(
-                color: AppColors.primary.shade300, shape: BoxShape.circle),
-            child: Center(
-              child: SvgPicture.asset(AppAssets.check),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class ProfileLogo extends StatelessWidget {
-  const ProfileLogo({
-    super.key,
-    this.image,
-    this.color,
-    this.title,
-    this.textColor,
-  });
-  final DecorationImage? image;
-  final Color? color;
-  final Color? textColor;
-  final String? title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 53.h,
-      width: 53.w,
-      decoration: BoxDecoration(
-          color: color ?? AppColors.primary.shade500,
-          shape: BoxShape.circle,
-          image: image),
-      child: Center(
-          child: title != null
-              ? AppText.heading4(
-                  title!,
-                  color: textColor ?? AppColors.white,
-                )
-              : const SizedBox()),
     );
   }
 }

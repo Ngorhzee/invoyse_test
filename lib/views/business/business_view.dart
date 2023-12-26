@@ -4,10 +4,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:invoyse_test/constants/asset.dart';
 import 'package:invoyse_test/utils/colors.dart';
 import 'package:invoyse_test/views/business/component/business_info_view.dart';
+import 'package:provider/provider.dart';
 
+import '../../providers/business_profile_providers.dart';
 import '../../services/page_router.dart';
 import '../../widgets/app_button.dart';
 import 'component/business_branding_view.dart';
+import 'component/business_stoke_widget.dart';
 
 class AddBusinessView extends StatefulWidget {
   const AddBusinessView({super.key});
@@ -21,6 +24,8 @@ class _AddBusinessViewState extends State<AddBusinessView> {
   PageRouter pageRouter = PageRouter.instance;
   @override
   Widget build(BuildContext context) {
+    BusinessProfileProvider provider =
+        Provider.of<BusinessProfileProvider>(context);
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -76,10 +81,16 @@ class _AddBusinessViewState extends State<AddBusinessView> {
               ),
               AppButton.expanded(
                 text: index == 0 ? "Next" : "Create Your Invoice",
+                enabled: index == 0 ? provider.buttonEnabled : true,
                 onPressed: () {
                   if (index < 1) {
-                    index = index + 1;
-                    setState(() {});
+                    if (provider.formKey.currentState!.validate()) {
+                      index = index + 1;
+                      setState(() {});
+                    }
+                  } else {
+                    provider.addBusinessProfile();
+                    pageRouter.goBack();
                   }
                 },
               ),
@@ -91,22 +102,4 @@ class _AddBusinessViewState extends State<AddBusinessView> {
   }
 }
 
-class BusinessStrokeWidget extends StatelessWidget {
-  const BusinessStrokeWidget({
-    super.key,
-    required this.isActive,
-  });
 
-  final bool isActive;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 3.h,
-      width: 33.w,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: isActive ? AppColors.primary : AppColors.grey.shade100),
-    );
-  }
-}

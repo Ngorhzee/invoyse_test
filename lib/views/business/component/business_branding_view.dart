@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 import '../../../constants/asset.dart';
+import '../../../providers/business_profile_providers.dart';
 import '../../../utils/app_text.dart';
 import '../../../widgets/app_text_field.dart';
 
@@ -11,6 +13,8 @@ class AddBusinessBranding extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+     BusinessProfileProvider provider =
+        Provider.of<BusinessProfileProvider>(context);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 23.w),
       child: Column(
@@ -38,10 +42,13 @@ class AddBusinessBranding extends StatelessWidget {
           ),
           AppTextField(
             hintText: "Upload Your Logo",
+            controller: provider.businessLogo,
             suffix: Padding(
               padding: EdgeInsets.only(right: 22.w),
               child: SvgPicture.asset(AppAssets.upload),
+              
             ),
+            onTap: ()=>provider.addBusinessLogo(),
             readonly: true,
           ),
           SizedBox(
@@ -49,6 +56,7 @@ class AddBusinessBranding extends StatelessWidget {
           ),
           AppTextField(
             hintText: "Business Category",
+            controller: provider.businessCategory,
             suffix: Padding(
               padding: EdgeInsets.only(right: 22.w),
               child: SvgPicture.asset(AppAssets.category),
@@ -59,6 +67,7 @@ class AddBusinessBranding extends StatelessWidget {
           ),
           AppTextField(
             hintText: " NGN - Nigerian Naira (₦)",
+            controller: provider.businessValue,
             suffix: Padding(
               padding: EdgeInsets.only(right: 22.w),
               child: SvgPicture.asset(AppAssets.money),

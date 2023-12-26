@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:invoyse_test/utils/colors.dart';
 
 class BottomSheets {
@@ -12,7 +13,7 @@ class BottomSheets {
         isScrollControlled: true,
         // backgroundColor: Colors.white.withOpacity(0.8),
         enableDrag: enableDrag,
-        //constraints: BoxConstraints(maxHeight: height!),
+        constraints: BoxConstraints(maxHeight: (2 * 1.sh) / 3),
         backgroundColor: AppColors.white,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -26,7 +27,6 @@ class BottomSheets {
           return Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-             
               Flexible(child: child),
             ],
           );
