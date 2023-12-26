@@ -4,16 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:invoyse_test/constants/asset.dart';
-import 'package:invoyse_test/services/page_router.dart';
 import 'package:invoyse_test/utils/app_text.dart';
 import 'package:invoyse_test/utils/colors.dart';
-import 'package:invoyse_test/views/business/business_view.dart';
 import 'package:invoyse_test/views/menu/components/menu_cards.dart';
-import 'package:invoyse_test/views/menu/components/profile_card.dart';
 import 'package:invoyse_test/widgets/bottom_sheet.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/business_profile_providers.dart';
+import 'components/add_business.dart';
 import 'components/profile_logo.dart';
 
 class MenuView extends StatelessWidget {
@@ -21,7 +19,6 @@ class MenuView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    PageRouter pageRouter = PageRouter.instance;
     BusinessProfileProvider provider =
         Provider.of<BusinessProfileProvider>(context);
     return Scaffold(
@@ -31,13 +28,15 @@ class MenuView extends StatelessWidget {
           child: Column(
             children: [
               Padding(
-                padding: EdgeInsets.only(left: 19.w),
+                padding: EdgeInsets.only(left: 19.w, right: 19.w),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SvgPicture.asset(AppAssets.arrowBackIos),
                     AppText.heading1("Menu"),
-                    const SizedBox()
+                    SizedBox(
+                      width: 7.5.w,
+                    )
                   ],
                 ),
               ),
@@ -89,109 +88,7 @@ class MenuView extends StatelessWidget {
                             ),
                             GestureDetector(
                               onTap: () => BottomSheets.showSheet(context,
-                              
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 10.w, vertical: 20.h),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 10.w),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              const SizedBox(),
-                                              AppText.heading2(
-                                                "Switch business",
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                              GestureDetector(
-                                                onTap: () =>
-                                                    pageRouter.goBack(),
-                                                child: SizedBox(
-                                                    height: 24.h,
-                                                    width: 24.w,
-                                                    child: SvgPicture.asset(
-                                                        AppAssets.close)),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 20.h,
-                                        ),
-                                        Flexible(
-                                          //height: 1.sh / 2,
-                                          child: SingleChildScrollView(
-                                            child: Column(children: [
-                                              ...List.generate(
-                                                  provider.businessProfileList
-                                                      .length,
-                                                  (index) => Column(
-                                                        children: [
-                                                          GestureDetector(
-                                                              onTap: () {
-                                                                provider.setActiveProfile(
-                                                                    provider.businessProfileList[
-                                                                        index]);
-                                                                pageRouter
-                                                                    .goBack();
-                                                              },
-                                                              child: ProfileCard(
-                                                                  isActive: provider
-                                                                          .activeProfile ==
-                                                                      provider.businessProfileList[
-                                                                          index],
-                                                                  businessModel:
-                                                                      provider.businessProfileList[
-                                                                          index])),
-                                                          SizedBox(
-                                                            height: 10.h,
-                                                          ),
-                                                          Divider(
-                                                            color: AppColors
-                                                                .grey.shade600
-                                                                .withOpacity(
-                                                                    .3),
-                                                          ),
-                                                          SizedBox(
-                                                            height: 15.h,
-                                                          ),
-                                                        ],
-                                                      )),
-                                            ]),
-                                          ),
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            pageRouter.goBack();
-                                            pageRouter
-                                                .gotoWidget(AddBusinessView());
-                                          },
-                                          child: Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 10.w),
-                                            child: Row(
-                                              children: [
-                                                SvgPicture.asset(AppAssets.add),
-                                                SizedBox(
-                                                  width: 27.w,
-                                                ),
-                                                AppText.heading4(
-                                                  "Add Account",
-                                                  color: AppColors
-                                                      .primary.shade500,
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  )),
+                                  child: AddAccountBottomSheet()),
                               child: AppText.body4(
                                 "Switch business",
                                 textDecoration: TextDecoration.underline,
@@ -231,7 +128,7 @@ class MenuView extends StatelessWidget {
                       title: "Customization options",
                       subtitle:
                           "Invoice no., Quantity label, Invoice title..."),
-                  const MenuCards(title: "Export "),
+                  const MenuCards(title: "Export"),
                   Container(
                     padding:
                         EdgeInsets.symmetric(horizontal: 19.w, vertical: 20.h),
@@ -239,7 +136,7 @@ class MenuView extends StatelessWidget {
                     child: AppText.heading3("Account settings"),
                   ),
                   const MenuCards(
-                    title: "Upgrade  your plan",
+                    title: "Upgrade your plan",
                     showArrow: false,
                   ),
                   const MenuCards(
@@ -276,3 +173,4 @@ class MenuView extends StatelessWidget {
     );
   }
 }
+

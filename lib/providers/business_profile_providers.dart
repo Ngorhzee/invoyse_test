@@ -52,6 +52,8 @@ class BusinessProfileProvider with ChangeNotifier {
         businessAddress: businessaddress.text,
         image: image != null ? image!.path : null);
     if (businessProfileList.contains(businessProfile)) {
+      activeProfile = businessProfile;
+      notifyListeners();
       return;
     } else {
       businessProfileList.add(businessProfile);

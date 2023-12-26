@@ -9,15 +9,15 @@ class BusinessModel {
     this.image,
   });
 
-   @override
+  @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is BusinessModel &&
-          runtimeType == other.runtimeType && businessName == other.businessName && businessAddress == other.businessAddress;
-        
+          businessName == other.businessName &&
+          businessAddress == other.businessAddress;
 
   @override
-  int get hashCode => 
+  int get hashCode =>
       // For example:
       businessName.hashCode ^ businessAddress.hashCode;
 }

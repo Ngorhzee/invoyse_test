@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:invoyse_test/constants/asset.dart';
-import 'package:invoyse_test/utils/colors.dart';
 import 'package:invoyse_test/views/business/component/business_info_view.dart';
 import 'package:provider/provider.dart';
 
