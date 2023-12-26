@@ -43,64 +43,64 @@ class MenuView extends StatelessWidget {
               SizedBox(
                 height: 11.h,
               ),
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 18.h, horizontal: 20.w),
-                color: AppColors.primary.shade500,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        ProfileLogo(
-                          title: provider.activeProfile.image == null
-                              ? provider.getshortForm(
-                                  provider.activeProfile.businessName)
-                              : null,
-                          image: provider.activeProfile.image != null &&
-                                  !provider.activeProfile.image!
-                                      .contains("assets")
-                              ? DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: FileImage(
-                                    File(provider.activeProfile.image!),
-                                  ),
-                                )
-                              : provider.activeProfile.image != null &&
-                                      provider.activeProfile.image!
-                                          .contains("assets")
-                                  ? DecorationImage(
-                                      image: AssetImage(
-                                          provider.activeProfile.image!))
-                                  : null,
-                          color: AppColors.white,
-                          textColor: AppColors.primary.shade500,
-                        ),
-                        SizedBox(
-                          width: 28.w,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            AppText.heading4(
-                                provider.activeProfile.businessName),
-                            SizedBox(
-                              height: 2.h,
-                            ),
-                            GestureDetector(
-                              onTap: () => BottomSheets.showSheet(context,
+              GestureDetector(
+                 onTap: () => BottomSheets.showSheet(context,
                                   child: AddAccountBottomSheet()),
-                              child: AppText.body4(
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 18.h, horizontal: 20.w),
+                  color: AppColors.primary.shade500,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          ProfileLogo(
+                            title: provider.activeProfile.image == null
+                                ? provider.getshortForm(
+                                    provider.activeProfile.businessName)
+                                : null,
+                            image: provider.activeProfile.image != null &&
+                                    !provider.activeProfile.image!
+                                        .contains("assets")
+                                ? DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: FileImage(
+                                      File(provider.activeProfile.image!),
+                                    ),
+                                  )
+                                : provider.activeProfile.image != null &&
+                                        provider.activeProfile.image!
+                                            .contains("assets")
+                                    ? DecorationImage(
+                                        image: AssetImage(
+                                            provider.activeProfile.image!))
+                                    : null,
+                            color: AppColors.white,
+                            textColor: AppColors.primary.shade500,
+                          ),
+                          SizedBox(
+                            width: 28.w,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              AppText.heading4(
+                                  provider.activeProfile.businessName),
+                              SizedBox(
+                                height: 2.h,
+                              ),
+                              AppText.body4(
                                 "Switch business",
                                 textDecoration: TextDecoration.underline,
                                 color: AppColors.white,
-                              ),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                    SvgPicture.asset(AppAssets.arrowDown),
-                  ],
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                      SvgPicture.asset(AppAssets.arrowDown),
+                    ],
+                  ),
                 ),
               ),
               Expanded(
